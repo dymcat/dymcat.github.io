@@ -15,9 +15,25 @@ html,body{overflow:hidden;margin:0;height:100%;background:linear-gradient(45deg,
 <body>
 </body>
 <script>
-var area=navigator.language=="zh-CN"&&new Date().getTimezoneOffset()/-60==8?"nanjing":"hongkong";
-document.body.innerHTML="<iframe src='https://web-"+area+"-1252193259.cos-website.ap-"+area+".myqcloud.com/index.html?"+parseInt(new Date().getTime()/1000/60/60/24/7)+"' width='100%' height='100%' frameborder=0 allowfullscreen></iframe>";
+function load(area){
+	document.body.innerHTML="<iframe src='https://web-"+area+"-1252193259.cos-website.ap-"+area+".myqcloud.com/index.html?"+parseInt(new Date().getTime()/1000/60/60/24/7)+"' width='100%' height='100%' frameborder=0 allowfullscreen></iframe>";
+}
+var global=navigator.language=="zh-CN"&&new Date().getTimezoneOffset()/-60==8?"nanjing":"hongkong";
+if(window.localStorage&&window.localStorage.getItem("area")){global=window.localStorage.getItem("area");}
+load(global);
+window.IPCallBack=function(data){
+	var area=",北京,天津,河北,山西,内蒙,辽宁,吉林,黑龙,上海,江苏,浙江,安徽,福建,江西,山东,河南,湖北,湖南,广东,广西,海南,重庆,四川,贵州,云南,西藏,陕西,甘肃,青海,宁夏,新疆,".indexOf(","+data.pro.substring(0,2)+",")>-1?"nanjing":"hongkong";
+	if(window.localStorage){window.localStorage.setItem("area",area);}
+	if(area!=global){load(area);}
+};
+window.JSONP=function(data){
+	var area=data.country=="中国"&&data.regionName.indexOf("香港")==-1&&data.regionName.indexOf("澳门")==-1&&data.regionName.indexOf("台湾")==-1?"nanjing":"hongkong";
+	if(window.localStorage){window.localStorage.setItem("area",area);}
+	if(area!=global){load(area);}
+};
 </script>
+<script src="http://whois.pconline.com.cn/ipJson.jsp" async defer></script>
+<script src="http://ip-api.com/json/?lang=zh-CN&callback=JSONP" async defer></script>
 <script src="//sdk.51.la/js-sdk-pro.min.js?id=3GS43wX6bxMbOnRS&ck=3GS43wX6bxMbOnRS" id="LA_COLLECT" charset="UTF-8" async defer></script>
 <script src="https://hm.baidu.com/hm.js?e2d6c4b0252810ce76c4baae7a1c5f15" async defer></script>
 </html>
