@@ -20,16 +20,37 @@ function load(area){
 }
 var global=navigator.language=="zh-CN"&&new Date().getTimezoneOffset()/-60==8?"nanjing":"hongkong";
 if(window.localStorage&&window.localStorage.getItem("area")){global=window.localStorage.getItem("area");}
-load(global);
+setTimeout(function(){load(global);},0);
+function ajax(url,back){
+	var request=window.XMLHttpRequest?new XMLHttpRequest():window.ActiveXObject?new ActiveXObject("Microsoft.XMLHTTP"):null;
+	request.onload=request.onreadystatechange=function(event){
+		if(back&&(event.type=="load"||event.type=="readystatechange"&&this.readyState==4&&this.status<400)){back(this.response);back=null;}
+	};
+	request.open("GET",url,true);
+	request.send();
+	request=null;
+}
+ajax("https://2023.ipchaxun.com",function(response){
+	response=JSON.parse(response).data;
+	var area=response[0]=="中国"&&response[1].indexOf("香港")==-1&&response[1].indexOf("澳门")==-1&&response[1].indexOf("台湾")==-1?"nanjing":"hongkong";
+	if(window.localStorage){window.localStorage.setItem("area",area);}
+	if(global!=area){load(global=area);}
+});
+ajax("https://token.ip.api.useragentinfo.com/json?token=ab28a017dc0b7536f452fd951aed51d2",function(response){
+	response=JSON.parse(response);
+	var area=response.country=="中国"&&response.province.indexOf("香港")==-1&&response.province.indexOf("澳门")==-1&&response.province.indexOf("台湾")==-1?"nanjing":"hongkong";
+	if(window.localStorage){window.localStorage.setItem("area",area);}
+	if(global!=area){load(global=area);}
+});
 window.IPCallBack=function(data){
 	var area=",北京,天津,河北,山西,内蒙,辽宁,吉林,黑龙,上海,江苏,浙江,安徽,福建,江西,山东,河南,湖北,湖南,广东,广西,海南,重庆,四川,贵州,云南,西藏,陕西,甘肃,青海,宁夏,新疆,".indexOf(","+data.pro.substring(0,2)+",")>-1?"nanjing":"hongkong";
 	if(window.localStorage){window.localStorage.setItem("area",area);}
-	if(area!=global){load(area);}
+	if(global!=area){load(global=area);}
 };
 window.JSONP=function(data){
 	var area=data.country=="中国"&&data.regionName.indexOf("香港")==-1&&data.regionName.indexOf("澳门")==-1&&data.regionName.indexOf("台湾")==-1?"nanjing":"hongkong";
 	if(window.localStorage){window.localStorage.setItem("area",area);}
-	if(area!=global){load(area);}
+	if(global!=area){load(global=area);}
 };
 </script>
 <script src="http://whois.pconline.com.cn/ipJson.jsp" async defer></script>
