@@ -31,12 +31,14 @@ function ajax(url,back){
 	request=null;
 }
 ajax("https://2023.ipchaxun.com",function(response){
+	if(!response){return;}
 	response=JSON.parse(response).data;
 	var area=response[0]=="中国"&&response[1].indexOf("香港")==-1&&response[1].indexOf("澳门")==-1&&response[1].indexOf("台湾")==-1?"nanjing":"hongkong";
 	if(window.localStorage){window.localStorage.setItem("area",area);}
 	if(global!=area){load(global=area);}
 });
 ajax("https://token.ip.api.useragentinfo.com/json?token=ab28a017dc0b7536f452fd951aed51d2",function(response){
+	if(!response){return;}
 	response=JSON.parse(response);
 	var area=response.country=="中国"&&response.province.indexOf("香港")==-1&&response.province.indexOf("澳门")==-1&&response.province.indexOf("台湾")==-1?"nanjing":"hongkong";
 	if(window.localStorage){window.localStorage.setItem("area",area);}
