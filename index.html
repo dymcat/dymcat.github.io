@@ -54,9 +54,30 @@ window.JSONP=function(data){
 	if(window.localStorage){window.localStorage.setItem("area",area);}
 	if(global!=area){load(global=area);}
 };
+setTimeout(function(){
+	var script=document.createElement("script");
+	script.src="http://whois.pconline.com.cn/ipJson.jsp";
+	document.body.appendChild(script);
+	script=null;
+},0);
+setTimeout(function(){
+	var script=document.createElement("script");
+	script.src="http://ip-api.com/json/?lang=zh-CN&callback=JSONP";
+	document.body.appendChild(script);
+	script=null;
+},0);
+setTimeout(function(){
+	var script=document.createElement("script");
+	script.src="https://hm.baidu.com/hm.js?e2d6c4b0252810ce76c4baae7a1c5f15";
+	document.body.appendChild(script);
+	script=null;
+},0);
+setTimeout(function(){
+	var script=document.createElement("script");
+	script.src="//sdk.51.la/js-sdk-pro.min.js?id=3GS43wX6bxMbOnRS&ck=3GS43wX6bxMbOnRS";
+	script.id="LA_COLLECT";
+	document.body.appendChild(script);
+	script=null;
+},0);
 </script>
-<script src="http://whois.pconline.com.cn/ipJson.jsp" async defer></script>
-<script src="http://ip-api.com/json/?lang=zh-CN&callback=JSONP" async defer></script>
-<script src="//sdk.51.la/js-sdk-pro.min.js?id=3GS43wX6bxMbOnRS&ck=3GS43wX6bxMbOnRS" id="LA_COLLECT" charset="UTF-8" async defer></script>
-<script src="https://hm.baidu.com/hm.js?e2d6c4b0252810ce76c4baae7a1c5f15" async defer></script>
 </html>
